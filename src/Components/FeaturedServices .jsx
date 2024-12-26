@@ -5,10 +5,10 @@ import { useNavigate } from "react-router-dom";
 
 const FeaturedServices = () => {
   const [services, setServices] = useState([]);
- 
+
   const navigate = useNavigate();
 
-  useEffect(() => { 
+  useEffect(() => {
     const fetchServices = async () => {
       try {
         const response = await axios.get("http://localhost:5000/servicesLimit");
@@ -18,7 +18,7 @@ const FeaturedServices = () => {
       }
     };
     fetchServices();
-  }, []); 
+  }, []);
   const cardVariants = {
     hidden: { opacity: 0, scale: 0.9 },
     visible: { opacity: 1, scale: 1, transition: { duration: 0.3 } },
@@ -27,10 +27,15 @@ const FeaturedServices = () => {
 
   return (
     <div className="container mx-auto px-4 py-8">
-    <div className="flex items-center justify-between mb-8">
-    <h2 className="text-2xl font-bold mb-6">Featured Services</h2>
-    <button className="btn btn-outline btn-info">See More</button>
-    </div>
+      <div className="flex items-center justify-between mb-8">
+        <h2 className="text-2xl font-bold mb-6">Featured Services</h2>
+        <button
+          onClick={() => navigate("/services")}
+          className="btn btn-outline btn-info"
+        >
+          See More
+        </button>
+      </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {services.map((service) => (
           <motion.div
@@ -40,19 +45,21 @@ const FeaturedServices = () => {
             initial="hidden"
             animate="visible"
             whileHover="hover"
-          > 
+          >
             <img
               src={service.image}
               alt={service.title}
               className="w-full h-40 object-cover rounded-md mb-4"
-            /> 
-            <h3 className="text-lg font-semibold mb-2">{service.title}</h3> 
+            />
+            <h3 className="text-lg font-semibold mb-2">{service.title}</h3>
             <p className="text-gray-600 mb-4">
               {service.description.length > 100
                 ? `${service.description.substring(0, 100)}...`
                 : service.description}
-            </p> 
-            <p className="text-xl font-bold text-blue-600 mb-4">${service.price}</p> 
+            </p>
+            <p className="text-xl font-bold text-blue-600 mb-4">
+              ${service.price}
+            </p>
             <button
               className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
               onClick={() => navigate(`/services/${service._id}`)}

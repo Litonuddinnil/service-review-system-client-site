@@ -1,172 +1,187 @@
-import Lottie from 'lottie-react';
-import React, { useState } from 'react';
-import registerAnimationData from '../assets/register.json';
-import useAuth from '../CustomHook/useAuth';
-import SocialLogin from '../Components/SocialLogin';
+import React, { useContext, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css"; 
+import useAuth from "../CustomHook/useAuth";
+import registerAnimationData from "../assets/register.json"
+import Lottie from "lottie-react";
 
 const Register = () => {
-  const { createUser } = useAuth();
-  const [formData, setFormData] = useState({
-    fullName: '',
-    email: '',
-    password: '',
-    confirmPassword: '',
-  });
+  const { createUserData, setUser, updateProfileUser } = useAuth();
+  const [terms, setTerms] = useState(false);
+  const [passwordError, setPasswordError] = useState("");
+  const [validName, setValidName] = useState("");
+  const navigate = useNavigate();
 
-  const [errors, setErrors] = useState({});
+  const handleTermsChange = () => setTerms(!terms);
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
+  const validNameUpdate = (name) => {
+    if (name.length === 0 || name.length <= 3) {
+      return "Name must be at least 3 characters long!";
+    }
+    return "";
   };
 
-  const validateForm = () => {
-    const newErrors = {};
-
-    if (!formData.fullName) {
-      newErrors.fullName = 'Full name is required';
+  const validatePassword = (password) => {
+    if (password.length < 6) {
+      return "Password must be at least 6 characters long.";
     }
-
-    if (!formData.email) {
-      newErrors.email = 'Email is required';
-    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      newErrors.email = 'Invalid email address';
+    if (!/[A-Z]/.test(password)) {
+      return "Password must contain at least one uppercase letter.";
     }
-
-    if (!formData.password) {
-      newErrors.password = 'Password is required';
-    } else if (formData.password.length < 6) {
-      newErrors.password = 'Password must be at least 6 characters';
+    if (!/[a-z]/.test(password)) {
+      return "Password must contain at least one lowercase letter.";
     }
-
-    if (formData.password !== formData.confirmPassword) {
-      newErrors.confirmPassword = 'Passwords do not match';
-    }
-
-    setErrors(newErrors);
-
-    return Object.keys(newErrors).length === 0;
+    return "";
   };
 
-  const handleSubmit = (e) => {
+  const handlerRegister = (e) => {
     e.preventDefault();
-    const { fullName, email, password } = formData;
+    const form = new FormData(e.target);
+    const name = form.get("name");
+    const photo = form.get("photoURL");
+    const email = form.get("email");
+    const password = form.get("password");
 
-    if (validateForm()) {
-      createUser(email, password)
-        .then((result) => {
-          console.log(result.user);
-        })
-        .catch((err) => {
-          console.log(err.message);
-        });
+    const error = validatePassword(password);
+    if (error) {
+      setPasswordError(error);
+      toast.error(error);
+      return;
     }
+
+    const errorName = validNameUpdate(name);
+    if (errorName) {
+      setValidName(errorName);
+      toast.error(errorName);
+      return;
+    }
+
+    setPasswordError("");
+    setValidName("");
+
+    createUserData(email, password)
+      .then((result) => {
+        const user = result.user;
+        setUser(user);
+        updateProfileUser({ displayName: name, photoURL: photo })
+          .then(() => {
+            toast.success("Registration successful!");
+            navigate("/");
+          })
+          .catch((err) => {
+            toast.error(err.message);
+            console.error(err);
+          });
+      })
+      .catch((err) => {
+        toast.error(err.message);
+        console.error(err.code, err.message);
+      });
   };
 
   return (
-    <div className="flex flex-col-reverse lg:flex-row items-center min-h-screen bg-gradient-to-r from-indigo-100 to-purple-200 p-4">
-       {/* Animation Section */}
-       <div className="w-80 lg:w-1/2">
+    <div
+      className="min-h-screen flex items-center justify-center bg-cover bg-center " 
+    >
+          <div className="w-80 lg:w-1/2">
         <Lottie animationData={registerAnimationData} loop={true} />
       </div>
-      {/* Form Section */}
-      <div className="w-full max-w-lg bg-white shadow-lg rounded-xl p-8">
-        <h2 className="text-3xl font-extrabold text-center text-gray-800 mb-4">
-          Create Your Account
-        </h2>
-        <p className="text-center text-gray-600 mb-6">
-          Start your journey with us today!
-        </p>
-        <form onSubmit={handleSubmit}>
-          <div className="mb-4">
-            <label htmlFor="fullName" className="block text-sm font-medium text-gray-700">
-              Full Name
+      <div className="card bg-white bg-opacity-90 w-full max-w-lg shadow-2xl rounded-none">
+        <h1 className="text-2xl mt-2 text-center font-bold">Register Your Account</h1>
+        <form onSubmit={handlerRegister} className="card-body">
+          <div className="form-control">
+            <label className="label">
+              <span className="label-text text-lg font-semibold">Your Name</span>
             </label>
             <input
               type="text"
-              id="fullName"
-              name="fullName"
-              value={formData.fullName}
-              onChange={handleChange}
-              className="input input-bordered w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-purple-500"
-              placeholder="John Doe"
+              placeholder="Enter your name"
+              name="name"
+              className="input input-bordered"
+              onChange={(e) => {
+                const errorName = validNameUpdate(e.target.value);
+                setValidName(errorName);
+              }}
+              required
             />
-            {errors.fullName && <p className="text-red-500 text-sm mt-1">{errors.fullName}</p>}
           </div>
 
-          <div className="mb-4">
-            <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-              Email Address
+          <div className="form-control">
+            <label className="label">
+              <span className="label-text text-lg font-semibold">Photo URL</span>
+            </label>
+            <input
+              type="text"
+              placeholder="Enter the photo link"
+              name="photoURL"
+              className="input input-bordered"
+              required
+            />
+          </div>
+
+          <div className="form-control">
+            <label className="label">
+              <span className="label-text text-lg font-semibold">Email</span>
             </label>
             <input
               type="email"
-              id="email"
               name="email"
-              value={formData.email}
-              onChange={handleChange}
-              className="input input-bordered w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-purple-500"
-              placeholder="you@example.com"
+              placeholder="Enter your email address"
+              className="input input-bordered"
+              required
             />
-            {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
           </div>
 
-          <div className="mb-4">
-            <label htmlFor="password" className="block text-sm font-medium text-gray-700">
-              Password
+          <div className="form-control">
+            <label className="label">
+              <span className="label-text text-lg font-semibold">Password</span>
             </label>
             <input
               type="password"
-              id="password"
               name="password"
-              value={formData.password}
-              onChange={handleChange}
-              className="input input-bordered w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-purple-500"
-              placeholder="••••••••"
+              placeholder="Enter your password"
+              className="input input-bordered"
+              onChange={(e) => {
+                const error = validatePassword(e.target.value);
+                setPasswordError(error);
+              }}
+              required
             />
-            {errors.password && <p className="text-red-500 text-sm mt-1">{errors.password}</p>}
           </div>
 
-          <div className="mb-6">
-            <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700">
-              Confirm Password
+          <div className="form-control">
+            <label className="label">
+              <p className="label-text-alt flex items-center gap-2">
+                <input
+                  onChange={handleTermsChange}
+                  type="checkbox"
+                  checked={terms}
+                  className="checkbox"
+                />
+                Accept Terms & Conditions
+              </p>
             </label>
-            <input
-              type="password"
-              id="confirmPassword"
-              name="confirmPassword"
-              value={formData.confirmPassword}
-              onChange={handleChange}
-              className="input input-bordered w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-purple-500"
-              placeholder="••••••••"
-            />
-            {errors.confirmPassword && (
-              <p className="text-red-500 text-sm mt-1">{errors.confirmPassword}</p>
-            )}
           </div>
 
-          <button
-            type="submit"
-            className="w-full bg-purple-600 text-white py-3 rounded-lg font-medium hover:bg-purple-700 transition duration-300"
-          >
-            Register
-          </button>
+          <div className="form-control mt-6">
+            <button
+              className="btn btn-outline rounded-none text-black disabled:opacity-50"
+              disabled={!terms}
+            >
+              Register
+            </button>
+          </div>
         </form>
 
-        <div className="my-6">
-          <SocialLogin />
-        </div>
-
-        <p className="text-sm text-center text-gray-600">
-          Already have an account?{' '}
-          <a href="/login" className="text-purple-500 hover:underline">
-            Login Here
-          </a>
+        <p className="mb-4 text-center font-semibold text-gray-500">
+          Already have an account?{" "}
+          <Link to="/login" className="text-red-600">
+            Log in here
+          </Link>
         </p>
-      </div> 
-     
+      </div>
+      <ToastContainer position="top-center" autoClose={3000} />
     </div>
   );
 };

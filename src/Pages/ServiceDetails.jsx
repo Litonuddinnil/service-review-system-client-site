@@ -14,7 +14,7 @@ const ServiceDetails = () => {
 
 
   useEffect(() => { 
-    axios.get(`http://localhost:5000/services/${detailsService._id}/reviews`)
+    axios.get(`http://localhost:5000/services/reviews/${detailsService._id}`)
       .then(response => {
         setReviews(response.data);
       })
@@ -28,12 +28,13 @@ const ServiceDetails = () => {
       userPhoto: user?.photoURL,
       reviewText,
       rating,
+      title,
       date: new Date().toLocaleDateString(),
       serviceId: detailsService._id,
     }; 
 
     // Save review to the database
-    axios.post(`http://localhost:5000/services/${detailsService._id}/reviews`, newReview)
+    axios.post(`http://localhost:5000/services/reviews/${detailsService._id}`, newReview)
       .then(response => {
         setReviews([...reviews, response.data]); // Update reviews list
         setReviewText(''); // Clear the textarea

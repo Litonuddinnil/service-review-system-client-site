@@ -13,8 +13,7 @@ const MyServices = () => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [serviceToDelete, setServiceToDelete] = useState(null);
   const [updatedTitle, setUpdatedTitle] = useState('');
-  const [updatedDescription, setUpdatedDescription] = useState('');
-  const navigate = useNavigate();  
+  const [updatedDescription, setUpdatedDescription] = useState(''); 
   useEffect(() => {
     if (user) {
       axios.get(`http://localhost:5000/services?userId=${user.email}`)
@@ -59,7 +58,7 @@ const MyServices = () => {
     setShowDeleteModal(true);
   };
 
-  const handleDeleteConfirm = (id) => {
+  const handleDeleteConfirm = () => {
     axios.delete(`http://localhost:5000/services/${serviceToDelete._id}`)
       .then(() => {
         setServices(services.filter(service => service._id !== serviceToDelete._id));
