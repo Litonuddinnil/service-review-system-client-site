@@ -3,13 +3,15 @@ import axios from "axios";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 
-const Services = () => {
-  const [services, setServices] = useState([]); 
-  const navigate = useNavigate(); 
+const FeaturedServices = () => {
+  const [services, setServices] = useState([]);
+ 
+  const navigate = useNavigate();
+
   useEffect(() => { 
     const fetchServices = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/services");
+        const response = await axios.get("http://localhost:5000/servicesLimit");
         setServices(response.data);
       } catch (error) {
         console.error("Error fetching services:", error);
@@ -24,8 +26,11 @@ const Services = () => {
   };
 
   return (
-    <div className="container mx-auto px-4 py-8"> 
-    <h2 className="text-2xl font-bold mb-6"> Services All</h2> 
+    <div className="container mx-auto px-4 py-8">
+    <div className="flex items-center justify-between mb-8">
+    <h2 className="text-2xl font-bold mb-6">Featured Services</h2>
+    <button className="btn btn-outline btn-info">See More</button>
+    </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {services.map((service) => (
           <motion.div
@@ -61,4 +66,4 @@ const Services = () => {
   );
 };
 
-export default Services;
+export default FeaturedServices;
