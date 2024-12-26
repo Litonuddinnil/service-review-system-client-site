@@ -6,12 +6,11 @@ import useAuth from '../CustomHook/useAuth';
 
 const ServiceDetails = () => {
   const detailsService = useLoaderData();  
-//   console.log(detailsService)
+  const {title} = detailsService;
   const { user } = useAuth();  
   const [reviews, setReviews] = useState([]);
   const [rating, setRating] = useState(0);
-  const [reviewText, setReviewText] = useState('');
-
+  const [reviewText, setReviewText] = useState(''); 
 
   useEffect(() => { 
     axios.get(`http://localhost:5000/services/reviews/${detailsService._id}`)
@@ -28,17 +27,16 @@ const ServiceDetails = () => {
       userPhoto: user?.photoURL,
       reviewText,
       rating,
-      title,
+      title:title,  
       date: new Date().toLocaleDateString(),
       serviceId: detailsService._id,
     }; 
 
-    // Save review to the database
     axios.post(`http://localhost:5000/services/reviews/${detailsService._id}`, newReview)
       .then(response => {
-        setReviews([...reviews, response.data]); // Update reviews list
-        setReviewText(''); // Clear the textarea
-        setRating(0); // Reset the rating
+        setReviews([...reviews, response.data]);  
+        setReviewText('');  
+        setRating(0);   
       })
       .catch(error => console.error("Error submitting review:", error));
   };
@@ -86,6 +84,7 @@ const ServiceDetails = () => {
                   </div>
                 </div>
                 <ReactStars count={5} value={review.rating} size={24} edit={false} activeColor="#ffd700" />
+                <h4 className="mt-2 text-lg font-semibold text-gray-800">{review.title}</h4> {/* Display the title */}
                 <p className="mt-2 text-gray-700">{review.reviewText}</p>
               </div>
             ))
@@ -97,6 +96,7 @@ const ServiceDetails = () => {
       <div className="add-review-form mt-8 bg-gray-50 p-6 rounded-lg shadow-md">
         <h3 className="text-2xl font-semibold text-gray-800">Add Your Review</h3>
         <form onSubmit={handleReviewSubmit}>
+          
           <textarea
             value={reviewText}
             onChange={(e) => setReviewText(e.target.value)}
@@ -105,15 +105,15 @@ const ServiceDetails = () => {
             required
           ></textarea>
          <div className='flex items-center gap-3'>
-         <p className='text-xl text-yellow-500 font-extrabold'>Ratings:</p>
-          <ReactStars
-            count={5}
-            onChange={setRating}
-            size={24}
-            activeColor="#ffd700"
-            value={rating}
-            className="mt-4"
-          />
+           <p className='text-xl text-yellow-500 font-extrabold'>Ratings:</p>
+           <ReactStars
+             count={5}
+             onChange={setRating}
+             size={24}
+             activeColor="#ffd700"
+             value={rating}
+             className="mt-4"
+           />
          </div>
           <button
             type="submit"
