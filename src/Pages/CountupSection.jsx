@@ -4,6 +4,7 @@ import CountUp from "react-countup";
 const CountupSection = () => {
   const [data, setData] = useState({ services: 0 });
   const [review,setReviews] =  useState({review: 0});
+  const [users,setUsers]= useState({users: 0})
 
   useEffect(() => { 
     const fetchCounts = async () => {
@@ -23,6 +24,11 @@ const CountupSection = () => {
     .then(res => res.json())
     .then(data => setReviews(data))
   },[])
+  useEffect(()=>{
+    fetch("http://localhost:5000/users")
+    .then(res => res.json())
+    .then(data => setUsers(data))
+  },[])
 
   return (
     <div className="bg-gray-100 py-10">
@@ -31,9 +37,9 @@ const CountupSection = () => {
       </h2>
       <div className="flex flex-wrap justify-center gap-8"> 
         <div className="card bg-base-200 shadow-md w-48 py-6 text-center">
-          {/* <div className="text-5xl font-bold text-primary">
-            <CountUp end={data.users} duration={2.5} />
-          </div> */}
+          <div className="text-5xl font-bold text-primary">
+            <CountUp end={users.length} duration={2.5} />
+          </div>
           <p className="text-lg font-semibold text-gray-600 mt-2">Users</p>
         </div> 
         <div className="card bg-base-200 shadow-md w-48 py-6 text-center">

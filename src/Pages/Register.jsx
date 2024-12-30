@@ -68,6 +68,14 @@ const Register = () => {
           .then(() => {
             toast.success("Registration successful!");
             navigate("/");
+            const newUser = { name, email, photo };
+            fetch('http://localhost:5000/users', {
+              method: "POST",
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify(newUser)
+            })
           })
           .catch((err) => {
             toast.error(err.message);
