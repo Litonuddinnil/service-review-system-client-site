@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import axios from 'axios'; 
 import useAuth from '../CustomHook/useAuth';
 import { Helmet } from 'react-helmet-async';
+import useAxiosSecure from '../CustomHook/useAxiosSecure';
  
 
 const MyServices = () => {
@@ -15,10 +15,11 @@ const MyServices = () => {
   const [serviceToDelete, setServiceToDelete] = useState(null);
   const [updatedTitle, setUpdatedTitle] = useState('');
   const [updatedDescription, setUpdatedDescription] = useState(''); 
+  const axiosSecure = useAxiosSecure();
   
   useEffect(() => {
     if (user) {
-      axios.get(`http://localhost:5000/my-services/${user.email}`)  
+      axiosSecure.get(`/my-services/${user.email}`,{withCredentials:true})  
         .then(response => {
           setServices(response.data);
         })

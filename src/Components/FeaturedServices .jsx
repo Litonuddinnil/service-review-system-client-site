@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { motion } from "framer-motion";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom"; 
 
 const FeaturedServices = () => {
-  const [services, setServices] = useState([]);
-
+  const [services, setServices] = useState([]); 
   const navigate = useNavigate();
 
   useEffect(() => {

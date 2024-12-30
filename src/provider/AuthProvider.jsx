@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { createUserWithEmailAndPassword, getAuth, GoogleAuthProvider, onAuthStateChanged, sendPasswordResetEmail, signInWithEmailAndPassword, signInWithPopup, signOut, updateProfile } from "firebase/auth"; 
 import { app } from '../firebase/firebase.config';
 import AuthContext from './AuthContex';
+import axios from 'axios';
 
 const auth = getAuth(app);
 
@@ -23,15 +24,14 @@ const AuthProvider = ({children}) => {
    }
 
    const updateProfileUser = (updateData)=>{
+    setLoading(true);
        return updateProfile(auth.currentUser,updateData)
    }
    
    const logInGoogle = ()=>{
+    setLoading(true);
        return signInWithPopup(auth,provider)
-   }
-   const forgotEmail = (email)=>{
-       return sendPasswordResetEmail(auth,email);
-   }
+   } 
   
    const authInfo ={
        user,
@@ -41,14 +41,28 @@ const AuthProvider = ({children}) => {
        logIn,
        loading,
        updateProfileUser,
-       logInGoogle,
-       forgotEmail
+       logInGoogle, 
        
    };
    useEffect(()=>{
        const unSubsCribe = onAuthStateChanged(auth,(currentUser)=>{
            setUser(currentUser);
-           setLoading(false);
+           
+           if(currentUser?.email){
+            const user = {email : currentUser.email};
+            axios.post("http://localhost:5000/jwt",user,{withCredentials:true})
+            .then(res =>{
+                console.log(res.data);
+                setLoading(false);
+            })
+           }
+           else{
+            axios.post("http://localhost:5000/logOut",{},{withCredentials:true})
+            .then(res =>{
+                console.log(res.data);
+                setLoading(false);
+            })
+           }
        });
        return ()=>{
            unSubsCribe();

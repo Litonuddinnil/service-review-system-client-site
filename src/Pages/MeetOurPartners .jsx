@@ -3,31 +3,31 @@ import React from "react";
 const partners = [
   {
     name: "Tech Innovators Inc.",
-    logo: "https://example.com/logos/tech-innovators.png",
+    logo: "https://i.ibb.co.com/Lv8Xcq9/Tech-Innovators-Inc.jpg",
     description:
       "A leading provider of cutting-edge technology solutions, enabling businesses to thrive in a digital-first world.",
   },
   {
     name: "Green Solutions Co.",
-    logo: "https://example.com/logos/green-solutions.png",
+    logo: "https://i.ibb.co.com/0sHRGMN/Green-Solutions-Co.png",
     description:
       "Dedicated to sustainability, Green Solutions Co. offers eco-friendly products and consulting services.",
   },
   {
     name: "EduSmart Partners",
-    logo: "https://example.com/logos/edusmart-partners.png",
+    logo: "https://i.ibb.co.com/ZYFmDL3/Edu-Smart-Partners.jpg",
     description:
       "Collaborating with schools and universities to provide innovative learning tools and resources.",
   },
   {
     name: "HealthFirst Alliance",
-    logo: "https://example.com/logos/healthfirst-alliance.png",
+    logo: "https://i.ibb.co.com/m88jcrM/Health-First-Alliance.png",
     description:
       "Focused on improving healthcare accessibility through technology and community programs.",
   },
   {
     name: "Global Reach Media",
-    logo: "https://example.com/logos/global-reach-media.png",
+    logo: "https://i.ibb.co.com/BV9RCH9/Global-Reach-Media.webp",
     description:
       "A global leader in digital marketing and brand growth strategies for modern businesses.",
   },
@@ -52,7 +52,7 @@ const MeetOurPartners = () => {
               <img
                 src={partner.logo}
                 alt={`${partner.name} Logo`}
-                className="h-16 w-16 object-contain mr-4"
+                className="h-16 w-16  mr-2 rounded-full"
               />
               <h3 className="text-xl font-semibold text-gray-800">
                 {partner.name}

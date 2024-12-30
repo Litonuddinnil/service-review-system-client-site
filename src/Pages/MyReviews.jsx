@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { Modal } from "antd";
 import useAuth from "../CustomHook/useAuth";
 import { Helmet } from "react-helmet-async";
+import useAxiosSecure from "../CustomHook/useAxiosSecure";
 
 const MyReviews = () => {
   const [reviews, setReviews] = useState([]);
@@ -12,13 +13,13 @@ const MyReviews = () => {
   const [deleteModalVisible, setDeleteModalVisible] = useState(false);
   const [selectedReviewId, setSelectedReviewId] = useState(null);
   const {user} = useAuth();
-
+  const axiosSecure = useAxiosSecure();
   // Fetch reviews
   useEffect(() => {
    if(user){
     const fetchReviews = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/reviews/${user.email}`);
+        const response = await axiosSecure.get(`/reviews/${user.email}`,{withCredentials:true});
         setReviews(response.data);
       } catch (error) {
         console.error("Error fetching reviews:", error);

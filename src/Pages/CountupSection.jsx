@@ -22,7 +22,7 @@ const CountupSection = () => {
     fetch("http://localhost:5000/reviews")
     .then(res => res.json())
     .then(data => setReviews(data))
-  })
+  },[])
 
   return (
     <div className="bg-gray-100 py-10">
@@ -31,9 +31,9 @@ const CountupSection = () => {
       </h2>
       <div className="flex flex-wrap justify-center gap-8"> 
         <div className="card bg-base-200 shadow-md w-48 py-6 text-center">
-          <div className="text-5xl font-bold text-primary">
+          {/* <div className="text-5xl font-bold text-primary">
             <CountUp end={data.users} duration={2.5} />
-          </div>
+          </div> */}
           <p className="text-lg font-semibold text-gray-600 mt-2">Users</p>
         </div> 
         <div className="card bg-base-200 shadow-md w-48 py-6 text-center">

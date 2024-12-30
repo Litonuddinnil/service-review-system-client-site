@@ -1,11 +1,10 @@
  
 import Swal from "sweetalert2";
 import useAuth from "../CustomHook/useAuth";
-import { Helmet } from "react-helmet-async";
+import { Helmet } from "react-helmet-async"; 
  
 const AddService = () => {
-    const { user } = useAuth(); 
-    
+    const { user } = useAuth() 
     const handleSubmit = (e) => {
         e.preventDefault();
         const formData = new FormData(e.target);
