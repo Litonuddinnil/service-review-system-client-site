@@ -15,7 +15,7 @@ const ServiceDetails = () => {
   const [reviewText, setReviewText] = useState(''); 
   // const navigate = useNavigate(); 
   useEffect(() => { 
-    axios.get(`https://service-review-system-server-site-kwwfh562t.vercel.app/services/reviews/${detailsService._id}`,{withCredentials:true})
+    axios.get(`https://service-review-system-server-site.vercel.app/services/reviews/${detailsService._id}`,{withCredentials:true})
       .then(response => {
         setReviews(response.data);
       })
@@ -36,7 +36,7 @@ const ServiceDetails = () => {
       serviceId: detailsService._id,
     }; 
 
-    axios.post(`https://service-review-system-server-site-kwwfh562t.vercel.app/services/reviews/${detailsService._id}`, newReview, )
+    axios.post(`https://service-review-system-server-site.vercel.app/services/reviews/${detailsService._id}`, newReview, )
       .then(response => { console.log(response)
         if (response.data) {
           Swal.fire({

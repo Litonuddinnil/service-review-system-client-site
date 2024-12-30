@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 // import React from 'react';
 
 const axiosInstance = axios.create({
-    baseURL:"https://service-review-system-server-site-kwwfh562t.vercel.app",
+    baseURL:"https://service-review-system-server-site.vercel.app",
     withCredentials:true
 })
 const useAxiosSecure = () => {
@@ -19,7 +19,7 @@ const useAxiosSecure = () => {
             if(error.status === 401 || error.status === 403){
                 logOut()
                 .then(()=>{
-                    console.log("logged out")
+                    // console.log("logged out")
                     navigate("/login")
                 })
                 .catch((error)=>{

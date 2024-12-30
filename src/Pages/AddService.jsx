@@ -12,7 +12,7 @@ const AddService = () => {
         const formObject = Object.fromEntries(formData.entries());
         console.log(formObject);
         // Here you can add code to save the service to your database
-        fetch('https://service-review-system-server-site-kwwfh562t.vercel.app/services', {
+        fetch('https://service-review-system-server-site.vercel.app/services', {
             method: "POST",
             headers: {
               "content-type":"application/json",

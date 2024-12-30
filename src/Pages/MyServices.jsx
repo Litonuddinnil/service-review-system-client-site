@@ -46,7 +46,7 @@ const MyServices = () => {
       description: updatedDescription
     };
 
-    axios.put(`https://service-review-system-server-site-kwwfh562t.vercel.app/services/${selectedService._id}`, updatedService)
+    axios.put(`https://service-review-system-server-site.vercel.app/services/${selectedService._id}`, updatedService)
       .then(() => {
         setServices(services.map(service => 
           service._id === selectedService._id ? updatedService : service
@@ -62,7 +62,7 @@ const MyServices = () => {
   };
 
   const handleDeleteConfirm = () => {
-    axios.delete(`https://service-review-system-server-site-kwwfh562t.vercel.app/services/${serviceToDelete._id}`)
+    axios.delete(`https://service-review-system-server-site.vercel.app/services/${serviceToDelete._id}`)
       .then(() => {
         setServices(services.filter(service => service._id !== serviceToDelete._id));
         setShowDeleteModal(false);

@@ -50,14 +50,14 @@ const AuthProvider = ({children}) => {
            
            if(currentUser?.email){
             const user = {email : currentUser.email};
-            axios.post("https://service-review-system-server-site-kwwfh562t.vercel.app/jwt",user,{withCredentials:true})
+            axios.post("https://service-review-system-server-site.vercel.app/jwt",user,{withCredentials:true})
             .then(res =>{
                 console.log(res.data);
                 setLoading(false);
             })
            }
            else{
-            axios.post("https://service-review-system-server-site-kwwfh562t.vercel.app/logOut",{},{withCredentials:true})
+            axios.post("https://service-review-system-server-site.vercel.app/logOut",{},{withCredentials:true})
             .then(res =>{
                 console.log(res.data);
                 setLoading(false);

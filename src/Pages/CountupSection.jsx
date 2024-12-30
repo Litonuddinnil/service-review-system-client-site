@@ -9,7 +9,7 @@ const CountupSection = () => {
   useEffect(() => { 
     const fetchCounts = async () => {
       try {
-        const res = await fetch("https://service-review-system-server-site-kwwfh562t.vercel.app/services");  
+        const res = await fetch("https://service-review-system-server-site.vercel.app/services");  
         const result = await res.json();
         setData(result);
       } catch (error) {
@@ -20,12 +20,12 @@ const CountupSection = () => {
     fetchCounts();
   }, []);
   useEffect(()=>{
-    fetch("https://service-review-system-server-site-kwwfh562t.vercel.app/reviews")
+    fetch("https://service-review-system-server-site.vercel.app/reviews")
     .then(res => res.json())
     .then(data => setReviews(data))
   },[])
   useEffect(()=>{
-    fetch("https://service-review-system-server-site-kwwfh562t.vercel.app/users")
+    fetch("https://service-review-system-server-site.vercel.app/users")
     .then(res => res.json())
     .then(data => setUsers(data))
   },[])

@@ -13,7 +13,7 @@ const Services = () => {
   useEffect(() => {
     const fetchServices = async () => {
       try {
-        const response = await axios.get("https://service-review-system-server-site-kwwfh562t.vercel.app/services");
+        const response = await axios.get("https://service-review-system-server-site.vercel.app/services");
         setServices(response.data);
         const uniqueCategories = [
           "All",
