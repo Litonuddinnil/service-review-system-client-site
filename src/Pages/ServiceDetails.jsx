@@ -4,6 +4,7 @@ import ReactStars from "react-rating-stars-component";
 import axios from 'axios';
 import useAuth from '../CustomHook/useAuth';
 import Swal from 'sweetalert2';
+import { Helmet } from 'react-helmet-async';
 
 const ServiceDetails = () => {
   const detailsService = useLoaderData();  
@@ -60,6 +61,7 @@ const ServiceDetails = () => {
 
   return (
     <div className="container mx-auto px-4 py-8">
+      <Helmet><title>Home | ServicesDetails</title></Helmet>
       <div className="service-details flex flex-col md:flex-row bg-white shadow-lg rounded-lg overflow-hidden">
         {/* Service Info Section */}
         <div className="service-info flex-1 p-6">

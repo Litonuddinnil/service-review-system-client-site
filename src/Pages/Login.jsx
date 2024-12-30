@@ -5,6 +5,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import SocialLogin from "../Components/SocialLogin";
 import useAuth from "../CustomHook/useAuth";
 import { toast, ToastContainer } from "react-toastify";
+import axios from "axios";
 
 const Login = () => {
   const { logIn } = useAuth();
@@ -24,6 +25,11 @@ const Login = () => {
     logIn(email, password)
       .then((result) => {
         console.log("Login successful:", result.user?.email);
+        const user = {email:email};
+        axios.post("http://localhost:5000/jwt",user)
+        .then(data => {
+          console.log(data)
+        })
         navigate(from, { replace: true }); 
         toast.success("Login successful!");
       })

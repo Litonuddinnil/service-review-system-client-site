@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import useAuth from '../CustomHook/useAuth';
+import { Helmet } from 'react-helmet-async';
  
 
 const MyServices = () => {
@@ -14,6 +15,7 @@ const MyServices = () => {
   const [serviceToDelete, setServiceToDelete] = useState(null);
   const [updatedTitle, setUpdatedTitle] = useState('');
   const [updatedDescription, setUpdatedDescription] = useState(''); 
+  
   useEffect(() => {
     if (user) {
       axios.get(`http://localhost:5000/my-services/${user.email}`)  
@@ -79,6 +81,9 @@ const MyServices = () => {
 
   return (
     <div className="container mx-auto px-4 py-8">
+      <Helmet>
+        <title>Home | MyServices</title>
+      </Helmet>
       <h1 className="text-3xl font-semibold text-gray-800 mb-6">My Services</h1> 
       <div className="mb-6">
         <input

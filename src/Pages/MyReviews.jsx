@@ -3,6 +3,7 @@ import axios from "axios";
 import { motion } from "framer-motion";
 import { Modal } from "antd";
 import useAuth from "../CustomHook/useAuth";
+import { Helmet } from "react-helmet-async";
 
 const MyReviews = () => {
   const [reviews, setReviews] = useState([]);
@@ -62,8 +63,11 @@ const MyReviews = () => {
 
   return (
     <div className="container mx-auto px-4 py-8">
+      <Helmet>
+        <title>Home | MyReviews</title>
+      </Helmet>
       <h2 className="text-2xl font-bold mb-6">My Reviews</h2>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 gap-4">
         {reviews.map((review) => (
           <motion.div
             key={review._id}
