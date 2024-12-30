@@ -10,7 +10,7 @@ const FeaturedServices = () => {
   useEffect(() => {
     const fetchServices = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/servicesLimit");
+        const response = await axios.get("https://service-review-system-server-site-kwwfh562t.vercel.app/servicesLimit");
         setServices(response.data);
       } catch (error) {
         console.error("Error fetching services:", error);

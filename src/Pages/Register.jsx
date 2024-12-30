@@ -69,7 +69,7 @@ const Register = () => {
             toast.success("Registration successful!");
             navigate("/");
             const newUser = { name, email, photo };
-            fetch('http://localhost:5000/users', {
+            fetch('https://service-review-system-server-site-kwwfh562t.vercel.app/users', {
               method: "POST",
               headers: {
                 'Content-Type': 'application/json'

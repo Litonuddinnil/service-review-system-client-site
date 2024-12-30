@@ -34,7 +34,7 @@ const MyReviews = () => {
   const handleUpdate = async (id, updatedData) => {
     try {
       await axios.put(
-        `http://localhost:5000/reviews/${id}`,
+        `https://service-review-system-server-site-kwwfh562t.vercel.app/reviews/${id}`,
         updatedData
       ); 
       setReviews((prevReviews) =>
@@ -52,7 +52,7 @@ const MyReviews = () => {
   // Handle Delete
   const handleDelete = async () => {
     try {
-      await axios.delete(`http://localhost:5000/reviews/${selectedReviewId}`);
+      await axios.delete(`https://service-review-system-server-site-kwwfh562t.vercel.app/reviews/${selectedReviewId}`);
       setReviews((prevReviews) =>
         prevReviews.filter((review) => review._id !== selectedReviewId)
       );
