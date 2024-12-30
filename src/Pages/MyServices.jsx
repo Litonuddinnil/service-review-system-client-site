@@ -16,13 +16,13 @@ const MyServices = () => {
   const [updatedDescription, setUpdatedDescription] = useState(''); 
   useEffect(() => {
     if (user) {
-      axios.get(`http://localhost:5000/services?userId=${user.email}`)
+      axios.get(`http://localhost:5000/my-services/${user.email}`)  
         .then(response => {
           setServices(response.data);
         })
         .catch(error => console.error("Error fetching services:", error));
     }
-  }, [user]);
+  }, [user?.email]);
 
   const handleSearchChange = (e) => {
     setSearchQuery(e.target.value);

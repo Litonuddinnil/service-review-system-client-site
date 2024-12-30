@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { motion } from "framer-motion";
 import { Modal } from "antd";
+import useAuth from "../CustomHook/useAuth";
 
 const MyReviews = () => {
   const [reviews, setReviews] = useState([]);
@@ -9,19 +10,22 @@ const MyReviews = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [deleteModalVisible, setDeleteModalVisible] = useState(false);
   const [selectedReviewId, setSelectedReviewId] = useState(null);
+  const {user} = useAuth();
 
   // Fetch reviews
   useEffect(() => {
+   if(user){
     const fetchReviews = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/reviews");
+        const response = await axios.get(`http://localhost:5000/reviews/${user.email}`);
         setReviews(response.data);
       } catch (error) {
         console.error("Error fetching reviews:", error);
       }
+    }
+ 
+     fetchReviews();
     };
-
-    fetchReviews();
   }, []);
 
   // Handle Update

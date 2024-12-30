@@ -1,6 +1,7 @@
  
 import Swal from "sweetalert2";
 import useAuth from "../CustomHook/useAuth";
+import { Helmet } from "react-helmet-async";
  
 const AddService = () => {
     const { user } = useAuth(); 
@@ -8,6 +9,7 @@ const AddService = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         const formData = new FormData(e.target);
+        console.log([...formData.entries()]);
         const formObject = Object.fromEntries(formData.entries());
         console.log(formObject);
         // Here you can add code to save the service to your database
@@ -33,6 +35,7 @@ const AddService = () => {
     
     return (
         <div className="container mx-auto py-10 px-5 md:px-10">
+            <Helmet><title>Home | AddService</title></Helmet>
             <h1 className="text-3xl font-bold text-center mb-10">Add a New Service</h1>
             <form onSubmit={handleSubmit} className="bg-white shadow-md rounded-lg p-6 space-y-6">
                 
@@ -137,9 +140,7 @@ const AddService = () => {
                         placeholder="Enter service price"
                         required
                     />
-                </div>
-
-                {/* Added Date (Auto-generated) */}
+                </div> 
                 <div className="form-control">
                     <label className="label" htmlFor="addedDate">
                         <span className="label-text">Added Date</span>
@@ -150,7 +151,8 @@ const AddService = () => {
                         name="addedDate"
                         value={new Date().toLocaleDateString()}
                         className="input input-bordered w-full"
-                        disabled
+                        readOnly
+                        required
                     />
                 </div>
 
@@ -162,10 +164,11 @@ const AddService = () => {
                     <input
                         type="email"
                         id="userEmail"
-                        name="userEmail"
+                        name="email"
                         value={user?.email || ""}
                         className="input input-bordered w-full"
-                        disabled
+                        readOnly
+                        required
                     />
                 </div>
                 {/* Submit Button */}

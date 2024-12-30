@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
 
 const Services = () => {
   const [services, setServices] = useState([]); 
@@ -25,6 +26,9 @@ const Services = () => {
 
   return (
     <div className="container mx-auto px-4 py-8"> 
+    <Helmet>
+      <title>Home | Service</title>
+    </Helmet>
     <h2 className="text-2xl font-bold mb-6"> Services All</h2> 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {services.map((service) => (

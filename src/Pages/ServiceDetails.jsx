@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { useLoaderData } from 'react-router-dom'; 
+import { useLoaderData, useNavigate } from 'react-router-dom'; 
 import ReactStars from "react-rating-stars-component";
 import axios from 'axios';
 import useAuth from '../CustomHook/useAuth';
+import Swal from 'sweetalert2';
 
 const ServiceDetails = () => {
   const detailsService = useLoaderData();  
@@ -11,9 +12,9 @@ const ServiceDetails = () => {
   const [reviews, setReviews] = useState([]);
   const [rating, setRating] = useState(0);
   const [reviewText, setReviewText] = useState(''); 
-
+  // const navigate = useNavigate(); 
   useEffect(() => { 
-    axios.get(`http://localhost:5000/services/reviews/${detailsService._id}`)
+    axios.get(`http://localhost:5000/services/reviews/${detailsService._id}`,{withCredentials:true})
       .then(response => {
         setReviews(response.data);
       })
@@ -22,23 +23,39 @@ const ServiceDetails = () => {
 
   const handleReviewSubmit = (e) => {
     e.preventDefault();
+    const email = user.email;
     const newReview = {
       userName: user?.displayName,
       userPhoto: user?.photoURL,
       reviewText,
       rating,
       title:title,  
+      email:email,
       date: new Date().toLocaleDateString(),
       serviceId: detailsService._id,
     }; 
 
-    axios.post(`http://localhost:5000/services/reviews/${detailsService._id}`, newReview)
-      .then(response => {
-        setReviews([...reviews, response.data]);  
-        setReviewText('');  
-        setRating(0);   
-      })
-      .catch(error => console.error("Error submitting review:", error));
+    axios.post(`http://localhost:5000/services/reviews/${detailsService._id}`, newReview, )
+      .then(response => { console.log(response)
+        if (response.data) {
+          Swal.fire({
+            title: "Success!",
+            text: "Review Added Successfully!",
+            icon: "success",
+          });
+          setReviews([...reviews, response.data]);  
+          setReviewText('');   
+          setRating(0);  
+          // navigate("/");  
+      }})
+      .catch((error) => {
+        console.error(error.message);
+        Swal.fire({
+          title: "Error!",
+          text: "Error Something .",
+          icon: "error",
+        });
+      });
   };
 
   return (

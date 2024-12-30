@@ -71,12 +71,12 @@ const Register = () => {
           })
           .catch((err) => {
             toast.error(err.message);
-            console.error(err);
+            // console.error(err);
           });
       })
       .catch((err) => {
         toast.error(err.message);
-        console.error(err.code, err.message);
+        // console.error(err.code, err.message);
       });
   };
 

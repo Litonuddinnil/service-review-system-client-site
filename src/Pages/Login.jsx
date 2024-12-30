@@ -4,6 +4,7 @@ import animationDataLogin from "../assets/login.json";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import SocialLogin from "../Components/SocialLogin";
 import useAuth from "../CustomHook/useAuth";
+import { toast, ToastContainer } from "react-toastify";
 
 const Login = () => {
   const { logIn } = useAuth();
@@ -17,19 +18,17 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  // Function to handle login
+  // login
   const handleLogin = (e) => {
     e.preventDefault();
     logIn(email, password)
       .then((result) => {
         console.log("Login successful:", result.user?.email);
-        navigate(from, { replace: true });
-        // Uncomment the toast line below if using react-toastify
+        navigate(from, { replace: true }); 
         toast.success("Login successful!");
       })
       .catch((err) => {
-        console.error("Login error:", err.message);
-        // Uncomment the toast line below if using react-toastify
+        // console.error("Login error:", err.message); 
         toast.error("Login failed. Please check your credentials.");
       });
   };
@@ -110,6 +109,7 @@ const Login = () => {
         </Link>
       </p>
       </div>
+      <ToastContainer></ToastContainer>
     </div>
   );
 };
