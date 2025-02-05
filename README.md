@@ -129,6 +129,10 @@ The application uses environment variables to secure sensitive information. Belo
 - **DELETE** `/reviews/:id`: Delete a review by ID.
 
 --- 
+  <h2>📸 Screenshot</h2>
+  <img src="https://github.com/Litonuddinnil/service-review-system-client-site/blob/main/Screenshot%202025-02-05%20154937.png">
+  
+---
 
 ### Contributions
 
